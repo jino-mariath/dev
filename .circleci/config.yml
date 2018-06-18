@@ -21,28 +21,9 @@ jobs:
       - run: pwd
       - run: ls -lah
       - run: uname -a
-  two:
-    docker:
-      - image: jino7varghese/rhel7-mariadb
-    steps:
-      - checkout
-      - run: echo "Downloading Mariadb PAS container... Done."  
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: PAS_workspace
-
-      - run: |
-          if [[ $(cat PAS_workspace/echo-output) == "Trying out workspaces" ]]; then
-            echo "It worked!";
-          else
-            echo "Nope!"; exit 1
-          fi
   
 workflows:
   version: 2
   one_and_two:
     jobs:
       - one
-      - two:
-          requires:
-            - one
