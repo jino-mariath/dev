@@ -19,11 +19,9 @@ jobs:
           paths:
             - echo-output      
   two:
-    docker:
-      - image: jino7varghese/rhel7-mariadb
     steps:
       - checkout
-      - run: echo "Downloading Mariadb PAS container... Done."  
+      - run: echo "Lets check python Script."  
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: PAS_workspace
@@ -34,9 +32,8 @@ jobs:
           else
             echo "Nope!"; exit 1
           fi
-  three:
-      docker:
-        - images
+      - run: python --version
+      - run: python version_manager.py -l fix	
 
 workflows:
   version: 2
