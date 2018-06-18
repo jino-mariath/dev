@@ -35,8 +35,8 @@ jobs:
             echo "Nope!"; exit 1
           fi
   three:
-      docker:
-        - images
+       docker:
+         - images
 
 workflows:
   version: 2
