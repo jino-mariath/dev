@@ -26,8 +26,8 @@ jobs:
       - run:
           name: Set Environment Variable
           command: |
-            echo 'export PAS_VERSION = 3.12.56'
-            echo 'export $CIRCLE_PREVIOUS_BUILD_NUM > ../pas.version'
+            echo 'PAS_VERSION = 3.12.56 >> version.properties'
+            echo '$CIRCLE_PREVIOUS_BUILD_NUM > ../pas.version'
       - run: cat version.properties
       - run: cat ../pas.version
   
