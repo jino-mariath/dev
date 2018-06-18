@@ -34,10 +34,7 @@ jobs:
           else
             echo "Nope!"; exit 1
           fi
-  three:
-       docker:
-         - images
-
+  
 workflows:
   version: 2
   one_and_two:
