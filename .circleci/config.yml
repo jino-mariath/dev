@@ -35,13 +35,9 @@ jobs:
           else
             echo "Nope!"; exit 1
           fi
-<<<<<<< HEAD
       - run: python --version
       - run: python version_manager.py -l fix	
 
-=======
-  
->>>>>>> a605a3c7968ba9d151910b61bb8e5f66fcf77a11
 workflows:
   version: 2
   one_and_two:
