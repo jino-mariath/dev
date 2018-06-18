@@ -23,6 +23,13 @@ jobs:
       - run: uname -a
       - run: python --version
       - run: python version_manager.py -l fix
+      - run:
+          name: Set Environment Variable
+          command: |
+            echo 'export PAS_VERSION = 3.12.56'
+            echo 'export $CIRCLE_PREVIOUS_BUILD_NUM > ../pas.version'
+      - run: cat version.properties
+      - run: cat ../pas.version
   
 workflows:
   version: 2
