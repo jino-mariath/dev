@@ -32,7 +32,6 @@ jobs:
       - run: cat ../pas.version
       - run: export CIRCLE_PAS_VERSION=1.0.0
       - run: echo $CIRCLE_PAS_VERSION
-      - run: ping -c3 testprincessatsea.cruises.princess.com
   
 workflows:
   version: 2
