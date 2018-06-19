@@ -30,8 +30,8 @@ jobs:
             echo $CIRCLE_PREVIOUS_BUILD_NUM
       - run: cat version.properties
       - run: cat ../pas.version
-      - run: circleci build --env PAS_VERSION = 1.0.0
-      - run: echo $PAS_VERSION
+      - run: export CIRCLE_PAS_VERSION = 1.0.0
+      - run: echo $CIRCLE_PAS_VERSION
   
 workflows:
   version: 2
