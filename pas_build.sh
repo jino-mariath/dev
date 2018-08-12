@@ -1,11 +1,8 @@
 #!/bin/bash
-
 JENKINS_ROOT=`whereis jenkins | cut -d ':' -f2`;if [ -z "$JENKINS_ROOT" ]; then JENKINS_ROOT=`env | grep -i jenkins_home | cut -d '=' -f2`; elif [ -z "$JENKINS_ROOT" ]; then echo "Unable to locate Jenkins Home Directory"; else echo "Jenkins Home Dir is  - $JENKINS_ROOT"; fi
-
 PAS_VERSION=`cat $JENKINS_ROOT/jobs/PAS_DEV/var.properties | grep PAS_VERSION | cut -d '=' -f2`
 BUILD_NUMBER=`cat $JENKINS_ROOT/jobs/PAS_DEV/var.properties | grep VERSION_BUILD_NUMBER | cut -d '=' -f2`
 DEV_WORKSPACE="$JENKINS_ROOT/jobs/PAS_DEV/workspace"
-
 #Start build package and exculde unnecessary files
 touch /tmp/exclude-list
  echo "*.git
