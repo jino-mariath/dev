@@ -10,9 +10,11 @@ node ('master') {
            sh "pwd"
 	   parallel ('PAS_Dev_Deploy': {
 		//build job: 'PAS_Dev_Deploy'
+                echo "deploying to P@S to Dev site.... "
+                sh 'ls -lah; pwd'
 		},
 		   Pas_Dev_smoke_test:{
-		   echo "Deploying P@S to Dev site...."
+		   echo "P@S smote test .. make sure site is up and running after Deployment...."
 		   sh 'sh /var/lib/jenkins/workspace/JenkinsFile/test.sh'
 		   sh 'pwd'
 		}
