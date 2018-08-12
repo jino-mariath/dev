@@ -6,7 +6,7 @@ node ('master') {
         echo 'Dev Build - 1. Git Pull'
         build 'PAS_DEV'
         sh 'sh /var/lib/jenkins/workspace/JenkinsFile/pas_build.sh'
-	sh '/var/lib/jenkins/workspace/JenkinsFile/sh test.sh'
+	sh 'sh /var/lib/jenkins/workspace/JenkinsFile/test.sh'
         sh "pwd"
         }
 	parallel ('PAS_Dev_Deploy': {
