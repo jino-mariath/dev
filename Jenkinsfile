@@ -6,6 +6,7 @@ node ('master') {
         echo 'Dev Build - 1. Git Pull'
         //build 'PAS_DEV'
         //sh 'pas_build.sh'
+	sh 'test.sh'
         sh "pwd"
         }
     } catch(error) {
