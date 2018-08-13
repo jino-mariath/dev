@@ -10,8 +10,6 @@ node ('master') {
 	   echo 'Copying files'
            parallel ('PAS_Dev_deploy': {
               build 'PAS_DEV'
-              sh 'sh /var/lib/jenkins/workspace/JenkinsFile/pas_build.sh'
-	      sh 'sh /var/lib/jenkins/workspace/JenkinsFile/test.sh'
               sh "sleep 10; pwd"
 	      },
 	        PAS_Sonar_Deploy: {
@@ -21,7 +19,6 @@ node ('master') {
 		},
                 Pas_Dev_smoke_test:{
 		   echo "P@S smote test .. make sure site is up and running after Deployment...."
-		   sh 'sh /var/lib/jenkins/workspace/JenkinsFile/test.sh'
 		   sh 'sleep 15; pwd'
 		}
 	   ) 
