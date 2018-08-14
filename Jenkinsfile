@@ -16,9 +16,12 @@ node ('master') {
 	
         stage ('Artifactory') {
            echo 'Copying P@S package to Artifactory'
-           sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
 
- 	   parallel ('PAS_Dev_deploy': {
+ 	   parallel ('PAS_Artifactory': {
+		sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
+		}
+	
+			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
               sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
               echo 'Copying Deployment files...'
@@ -27,7 +30,7 @@ node ('master') {
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
-                Sonar_Test: {
+                	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
               build 'PAS_SONAR_TEST'
               }
