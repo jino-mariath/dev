@@ -4,7 +4,6 @@ node ('master') {
     try {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
-           #build 'PAS_DEV'
 	}
 	
 	stage ('P@S Packaging') {
