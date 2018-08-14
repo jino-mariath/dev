@@ -17,9 +17,8 @@ node ('master') {
         stage ('Artifactory') {
            echo 'Copying P@S package to Artifactory'
            sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
-        }
 
-	parallel ('PAS_Dev_deploy': {
+ 	   parallel ('PAS_Dev_deploy': {
               echo 'Copying P@S package to Dev Site'
               sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
               echo 'Copying Deployment files...'
