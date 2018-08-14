@@ -23,13 +23,13 @@ node ('master') {
               echo 'Copying P@S package to Dev Site'
               sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
               echo 'Copying Deployment files...'
-              sh 'rsync -avz /approot/JenkinsFile-Project/deployment/deployment.php WebTeam@lxpc1042:/home/WebTeam/deployment/'
+              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
               sh 'ssh WebTeam@lxpc1042; cd /home/WebTeam/deployment/; sh deployment.sh'
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
                 Sonar Test: {
-              echo 'Executing Sonar Test - Static Code Analyzer...'
+              echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
               build 'PAS_SONAR_TEST'
               }
            )
