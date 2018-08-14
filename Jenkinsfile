@@ -4,13 +4,13 @@ node ('master') {
     try {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
-	   //build 'PAS_DEV'
+	   build 'PAS_DEV'
 	}
 	
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
-	   //sh '/approot/JenkinsFile-Project/build/pas_build.sh'
+	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
 	
@@ -23,10 +23,10 @@ node ('master') {
 	
 			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
-              sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
+              //sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
               echo 'Copying Deployment files...'
-              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
-              sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
+              sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
@@ -36,11 +36,33 @@ node ('master') {
               }
            )
         }
+	
+	stage ('P@S Test and Stage Deployment') {
+	   echo 'Initating P@S Test and P@S Stage site code deployment..'
+
+	   parallel ('PAS_TEST_Deploy': {
+		echo 'Copying P@S package to Test Site'
+		echo 'Copying Deployment files...'
+		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
+		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+		echo 'P@S code deployed to Test site Successfully...'
+              },
+
+			PAS_STAGE_Deploy: {
+		echo 'Copying P@S package to Stage Site'
+		echo 'Copying Deployment files...'
+		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
+		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+		echo 'P@S code deployed to Stage site Successfully...'
+              },
+	   )
+	}
+ 
 
     } catch(error) {
         throw error
     } finally {
         
     }
-   echo 'Hello World'
+   echo 'Execution Completed Successfully......!'
 }
