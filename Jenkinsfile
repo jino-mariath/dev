@@ -17,7 +17,7 @@ node ('master') {
 	stage ('Artifactory') {
 	   echo 'Copying P@S package to Artifactory'
 	   sh ' cd /approot/jenkins/jobs/PAS_DEV/workspace/ ; file=`ls -lah princessatsea-*.tar.gz | awk -F " " '{print $NF}'`; curl -v  --user admin:AP6x7VgHK4kkq57C -X PUT "http://artifactory.cruises.princess.com:8081/artifactory/Angular/$file" -T $file
-	}
+
 	   parallel ('PAS_Dev_deploy': {
 	      echo 'Copying P@S package to Dev Site'
 	      sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
@@ -31,7 +31,8 @@ node ('master') {
 	      echo 'Executing Sonar Test - Static Code Analyzer...'
 	      build 'PAS_SONAR_TEST'
 	      }
-	)
+	   )
+       	}
 
     } catch(error) {
         throw error
