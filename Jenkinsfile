@@ -19,7 +19,7 @@ node ('master') {
 
  	   parallel ('PAS_Artifactory': {
 		sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
-		}
+		},
 	
 			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
