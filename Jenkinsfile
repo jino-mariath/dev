@@ -16,9 +16,7 @@ node ('master') {
 	
         stage ('Artifactory') {
            echo 'Copying P@S package to Artifactory'
-           sh 'cd /approot/jenkins/jobs/PAS_DEV/workspace/ ; file=`ls -lah princessatsea-*.tar.gz | awk -F " " '{print $NF}'`; ls -lah $file'
-	   sh 'curl -v  --user admin:AP6x7VgHK4kkq57C -X PUT "http://artifactory.cruises.princess.com:8081/artifactory/Angular/$file" -T $file'
-
+           sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
         }       
 
     } catch(error) {
