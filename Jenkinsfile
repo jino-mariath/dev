@@ -17,7 +17,23 @@ node ('master') {
         stage ('Artifactory') {
            echo 'Copying P@S package to Artifactory'
            sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
-        }       
+        }
+
+	parallel ('PAS_Dev_deploy': {
+              echo 'Copying P@S package to Dev Site'
+              sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
+              echo 'Copying Deployment files...'
+              sh 'rsync -avz /approot/JenkinsFile-Project/deployment/deployment.php WebTeam@lxpc1042:/home/WebTeam/deployment/'
+              sh 'ssh WebTeam@lxpc1042; cd /home/WebTeam/deployment/; sh deployment.sh'
+              echo 'P@S code deployed to Dev site Successfully...'
+              },
+
+                Sonar Test: {
+              echo 'Executing Sonar Test - Static Code Analyzer...'
+              build 'PAS_SONAR_TEST'
+              }
+           )
+        }
 
     } catch(error) {
         throw error
