@@ -28,7 +28,7 @@ node ('master') {
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
-                Sonar Test: {
+                Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
               build 'PAS_SONAR_TEST'
               }
