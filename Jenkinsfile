@@ -28,7 +28,7 @@ node ('master') {
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
-	      build(job: 'PAS_SONAR', wait: false): 
+	      build(job: 'PAS_SONAR', wait: false) 
        	      echo 'Executing Sonar Job ...'
 
               }
