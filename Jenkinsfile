@@ -30,8 +30,8 @@ node ('master') {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
 	      build 'PAS_SONAR'
 	      wait: false
+	      propagate: false
        	      echo 'Executing Sonar Job ...'
-              sh 'sleep 20'
 
               }
            )
