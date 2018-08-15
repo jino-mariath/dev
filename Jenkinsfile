@@ -10,7 +10,7 @@ node ('master') {
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
-	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
+	   //sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
 	
@@ -23,10 +23,9 @@ node ('master') {
 	
 			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
-              //sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/princessatsea* WebTeam@lxpc1042:/home/WebTeam/deployment/'
               echo 'Copying Deployment files...'
               sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-              sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+              //sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
@@ -47,7 +46,7 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
-		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh'
+		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"'
 		},
 
 			PAS_Pa11y: {
