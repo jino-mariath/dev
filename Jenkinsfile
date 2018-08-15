@@ -59,6 +59,14 @@ node ('master') {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
 		}
+	
+			PAS_Sonar_Status: {
+		if(Sonar_Status == 'FAILURE') {
+                    echo "Sonar job failed"
+                    currentBuild.result = 'UNSTABLE' // of FAILURE
+		    }
+              }
+
 	   )
 	}
 	
@@ -74,7 +82,7 @@ node ('master') {
 		echo 'Copying P@S package to Test Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		//sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Test site Successfully...'
               },
 
@@ -82,7 +90,7 @@ node ('master') {
 		echo 'Copying P@S package to Stage Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		//sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully...'
               },
 	   )
