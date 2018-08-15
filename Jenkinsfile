@@ -32,7 +32,7 @@ node ('master') {
            )
         }
 	stage ('SONAR Test') {
-	   wait: false,
+	   build job: 'PAS_SONAR', propagate: true, wait: false,
 	   echo 'Executing Sonar Job ...'
 	   sh 'sleep 20'
 	}
