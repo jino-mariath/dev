@@ -31,7 +31,7 @@ node ('master') {
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
-              build(job: 'PAS_SONAR_TEST', wait: false)
+              Sonar_Status = build(job: 'PAS_SONAR_TEST', wait: false, propagate: false).result
               }
            )
         }
@@ -47,12 +47,17 @@ node ('master') {
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"'
+		//sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh", wait: false'
 		},
 
 			PAS_Pa11y: {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
+		}
+
+		if(Sonar_Status == 'FAILURE') {
+            echo "Sonar job failed"
+            currentBuild.result = 'UNSTABLE' // of FAILURE
 		}
 	   )
 	}
@@ -69,7 +74,7 @@ node ('master') {
 		echo 'Copying P@S package to Test Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh"', wait: false
+		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Test site Successfully...'
               },
 
@@ -77,7 +82,7 @@ node ('master') {
 		echo 'Copying P@S package to Stage Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh"', wait: false
+		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully...'
               },
 	   )
