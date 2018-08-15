@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
 
-def Sonar_Status
-
 node ('master') {
     try {
         stage ('Dev Build') {
@@ -33,7 +31,7 @@ node ('master') {
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
-              Sonar_Status = build(job: 'PAS_SONAR_TEST', wait:false, propagate: false).result
+              build(job: 'PAS_SONAR_TEST', wait:false)
               }
            )
         }
