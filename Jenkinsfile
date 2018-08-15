@@ -28,14 +28,14 @@ node ('master') {
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
+	      build 'PAS_SONAR'
+	      wait: false
+       	      echo 'Executing Sonar Job ...'
+              sh 'sleep 20'
+
               }
            )
         }
-	stage ('SONAR Test') {
-	   build job: 'PAS_SONAR', propagate: true, wait: false,
-	   echo 'Executing Sonar Job ...'
-	   sh 'sleep 20'
-	}
 
 	stage ('P@S Test and Stage Deployment') {
 	   echo 'Initating P@S Test and P@S Stage site code deployment..'
