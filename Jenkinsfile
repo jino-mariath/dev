@@ -45,7 +45,7 @@ node ('master') {
 	stage ('Test Gate') {
 	   echo 'Initating P@S Test and P@S Stage site code deployment..'
 
-	   parallel ('PAS_Dev_Language: {
+	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
 		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh'
 		},
