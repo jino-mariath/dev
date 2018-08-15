@@ -57,13 +57,10 @@ node ('master') {
 		build 'PAS_TEST_PA11Y'
 		}
 	
-			PAS_Sonar_Status: {
 		if(Sonar_Status == 'FAILURE') {
                     echo "Sonar job failed"
                     currentBuild.result = 'UNSTABLE' // of FAILURE
 		    }
-              }
-
 	   )
 	}
 	
