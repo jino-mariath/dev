@@ -48,12 +48,7 @@ node ('master') {
 		echo 'Executing DEV site language code'
 		//sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
 		//sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"', wait: false
-		build job: 'PAS_Build_Script', 
-		properties([
-		  parameters([
-		    string(name: 'FILENAME', defaultValue: 'deploy', description: 'The target environment', )
-   			])
-		])
+		sh 'curl -X POST http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/build --user pc08300:7f2156584a2d62302f8d0db7ffc85ab6 --data-urlencode json='{"parameter": [{"name":"FILENAME", "value":"deploy"}]}''
 		}
 		
 			PAS_Pa11y: {
