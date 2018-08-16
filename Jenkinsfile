@@ -46,9 +46,8 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
-		//sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-		//sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"', wait: false
-		sh '/approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh pas_dev_language'
+		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
+		sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh pas_dev_language'
 		}
 		
 			PAS_Pa11y: {
