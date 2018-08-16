@@ -47,18 +47,26 @@ node ('master') {
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; nohup sh pas_dev_language.sh &"'
+		sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"', wait: false
 		},
 
 			PAS_Pa11y: {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
 		}
-	
-		//if(Sonar_Status == 'FAILURE') {
-                //    echo "Sonar job failed"
-                //    currentBuild.result = 'UNSTABLE' // of FAILURE
-		//    }
+		
+			Sonar_Status: {
+		echo 'Check Sonar build status'
+		sh 'SONAR_STATUS=`/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST`'
+		if($SONAR_STATUS == "SUCCESS") {
+			currentBuild.result = 'SUCCESS'
+			echo 'Sonar build is success..'
+			echo "RESULT: ${currentBuild.result}"
+		} else {
+			currentBuild.result = 'FAILURE'
+			echo 'Sonar build is Failed...'
+			echo "RESULT: ${currentBuild.result}"
+		}	
 	   )
 	}
 	
