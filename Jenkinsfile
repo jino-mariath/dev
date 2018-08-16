@@ -57,16 +57,7 @@ node ('master') {
 		
 			Sonar_Status: {
 		echo 'Check Sonar build status'
-		sh 'SONAR_STATUS=`/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST`'
-		//if($SONAR_STATUS == "SUCCESS") {
-		//	currentBuild.result = 'SUCCESS'
-		//	echo 'Sonar build is success..'
-		//	echo "RESULT: ${currentBuild.result}"
-		//} else {
-		//	currentBuild.result = 'FAILURE'
-		//	echo 'Sonar build is Failed...'
-		//	echo "RESULT: ${currentBuild.result}"
-		//}
+		sh '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST'
 		}	
 	   )
 	}
