@@ -53,11 +53,6 @@ node ('master') {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
 		}
-		
-	//		Sonar_Status: {
-	//	echo 'Check Sonar build status'
-	//	sh '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST'
-	//	}	
 	   )
 	}
 	
