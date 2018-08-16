@@ -49,10 +49,10 @@ node ('master') {
 		sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh pas_dev_language'
 		},
 		
-			PAS_Pa11y: {
-		echo 'Executing ADA Test - PA11Y script'
-		build 'PAS_TEST_PA11Y'
-		}
+	//		PAS_Pa11y: {
+	//	echo 'Executing ADA Test - PA11Y script'
+	//	build 'PAS_TEST_PA11Y'
+	//	}
 	   )
 	}
 	
