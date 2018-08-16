@@ -66,6 +66,7 @@ node ('master') {
 			currentBuild.result = 'FAILURE'
 			echo 'Sonar build is Failed...'
 			echo "RESULT: ${currentBuild.result}"
+		}
 		}	
 	   )
 	}
