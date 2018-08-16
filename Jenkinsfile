@@ -48,10 +48,14 @@ node ('master') {
 		echo 'Executing DEV site language code'
 		//sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
 		//sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_dev_language.sh"', wait: false
-		build job: 'PAS_Build_Script', parameters:
-		[[$class: 'BooleanParameterValue', name: 'deploy', value: false]], wait: false
+		build job: 'PAS_Build_Script', 
+		properties([
+		  parameters([
+		    string(name: 'FILENAME', defaultValue: 'deploy', description: 'The target environment', )
+   			])
+		])
 		}
-
+		
 			PAS_Pa11y: {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
