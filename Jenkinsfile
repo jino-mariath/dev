@@ -47,7 +47,7 @@ node ('master') {
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code'
 		sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh pas_dev_language'
-		}
+		},
 		
 			PAS_Pa11y: {
 		echo 'Executing ADA Test - PA11Y script'
