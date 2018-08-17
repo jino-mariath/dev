@@ -15,7 +15,6 @@ node ('master') {
 	   echo 'Building package - Combining and Compressing P@S code ....'
 
 	   def item = Jenkins.instance.getItemByFullName("/approot/jenkins/jobs/PAS_DEV")
-	   println item.getTime()
 	   //def  f=item.getLastFailedBuild()
 	   def  ff=item.getLastSuccessfulBuild()
 	   println ff.getTime()
@@ -74,7 +73,12 @@ node ('master') {
 		},
 
 			Sonar_Build_Status: {
-		echo 'Checking Sonar Build status'
+		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
+	        sh 'Sonar_status=`sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST`'
+                if(Sonar_status != "SUCCESS") {
+			echo 'PAS_SONAR_TEST Failes Status, please check the job.'
+			sh 'exit 1'
+			}
 		}		
 	   )
 	}
