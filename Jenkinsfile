@@ -9,11 +9,9 @@ node ('master') {
 	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
 	   def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
            println SonarBuildStatus
-	   String str = SonarBuildStatus
-	   println srt
-	   def compareString(String str){
+	   def compareString(String SonarBuildStatus){
            def str2 = "SUCCESS"
-	   if( str2 == str ) {
+	   if( str2 == SonarBuildStatus ) {
 		println "same"
 	   } else {
  		println "Not the same"
