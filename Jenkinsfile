@@ -16,8 +16,6 @@ node ('master') {
                build.doStop();
                //currentBuild.result = 'FAILURE'
                }
-            }
-
 	   build.doStop();
 	   build 'PAS_DEV'
 	}
