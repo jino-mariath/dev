@@ -7,6 +7,8 @@ node ('master') {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
 	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
+	   def ret = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
+           println ret
 	   build 'PAS_DEV'
 	}
 	
@@ -49,6 +51,7 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
+		//Get the Approvale if this part is failing --> http://lxpc1283.cruises.princess.com:8080/scriptApproval/
 
 		String content = 'ssh WebTeam@lxpc1040 "/home/WebTeam/deployment/pas_dev_language.sh"'
                 def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
@@ -67,7 +70,8 @@ node ('master') {
 
 			Sonar_Build_Status: {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
-	        sh 'Sonar_status=`sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST`'
+	        def ret = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
+		println ret
                 if(Sonar_status != "SUCCESS") {
 			echo 'PAS_SONAR_TEST Failes Status, please check the job.'
 			sh 'exit 1'
