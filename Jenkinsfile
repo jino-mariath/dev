@@ -7,6 +7,7 @@ node ('master') {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
 	   build 'PAS_DEV'
+	    echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/default/lastBuild/console'
 	}
 	
 	stage ('P@S Packaging') {
