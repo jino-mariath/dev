@@ -64,6 +64,7 @@ node ('master') {
 			Pa11y_Test: {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
+		sleep(10000) //10 wait for 10 sec.
 		},
 
 			Sonar_Build_Status: {
