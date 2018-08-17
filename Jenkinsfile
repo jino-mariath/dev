@@ -72,7 +72,7 @@ node ('master') {
 		println SonarBuildStatus
                 if(SonarBuildStatusi != "SUCCESS") {
 			println ("PAS_SONAR_TEST Failed Status, please check the job."
-			System.exit(0)
+			build.doStop();
 			}
 		}		
 	   )
