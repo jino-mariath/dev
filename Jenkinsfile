@@ -42,7 +42,7 @@ node ('master') {
 	stage ('DEV SmokeTest') {
 	   echo 'Cheking DEV site status after deployment. '
 	   sh 'sh /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/shell_scripts/bin/pax_intranet_smoke_test.sh https://devprincessatsea.cruises.princess.com/'
-	   sleep(10000) //Sleep 10 Sec
+	   sleep(10) //Sleep 10 Sec
 	}
 
 	stage ('Test Gate') {
