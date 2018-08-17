@@ -11,7 +11,7 @@ node ('master') {
 	   println SonarBuildStatus
                 if(SonarBuildStatus != "SUCCESS") {
                         println ("PAS_SONAR_TEST Failed Status, please check the job.")
-                        build.doStop();
+                        currentBuild.result = 'ABORTED'
                         }
            echo 'STOPPING;....'
 	   build.doStop();
