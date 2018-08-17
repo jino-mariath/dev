@@ -46,8 +46,11 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
-		new File(baseDir,'data.bin').withOutputStream { stream ->
-   		do something ...
+
+		new File(baseDir,'haiku.txt').withWriter('utf-8') { writer ->
+		    writer.writeLine 'Into the ancient pond'
+		    writer.writeLine 'A frog jumps'
+		    writer.writeLine 'Water’s sound!'
 		}
 
 		//File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
