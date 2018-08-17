@@ -46,8 +46,12 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
-		echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" >/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh
-		sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
+		File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
+		file.write "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'"
+		println file.text
+
+		//echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" > /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh
+		//sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
 		build(job: 'PAS_Build_Script', wait:false)
 		sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
 		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
