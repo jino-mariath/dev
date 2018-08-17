@@ -11,19 +11,6 @@ node ('master') {
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
-	   
-		String content = 'Some text'
-		def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
-		myFile.write(content)
-
-		//def filename = "/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh"
-		//def file = new File(filename)
-		//file.newWriter().withWriter { w ->
-		//w << mockRequest.requestContent
-		//}
-		//w.close()
-
-	   
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
@@ -61,14 +48,13 @@ node ('master') {
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
 
-		//File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
-		//file.write "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'"
-		//println file.text
+		String content = 'ssh WebTeam@lxpc1040 "/home/WebTeam/deployment/test.sh"'
+                def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
+                myFile.write(content)
 
-		//echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" > /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh
-		//sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
+		sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
 		build(job: 'PAS_Build_Script', wait:false)
-		sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
+		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
 		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
 		},
 
