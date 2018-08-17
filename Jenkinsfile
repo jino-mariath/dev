@@ -46,7 +46,7 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
-		//sh 'echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" >$JENKINS_HOME/jobs/PAS_Build_Script/workspace/dev_language.sh'
+		sh 'echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" >$JENKINS_HOME/jobs/PAS_Build_Script/workspace/dev_language.sh'
 		//sh 'chmod 755 $JENKINS_HOME/jobs/PAS_Build_Script/workspace/dev_language.sh'
 		//build(job: 'PAS_Build_Script', wait:false)
 		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
