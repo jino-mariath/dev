@@ -72,7 +72,7 @@ node ('master') {
 		println SonarBuildStatus
                 if(SonarBuildStatusi != "SUCCESS") {
 			println ("PAS_SONAR_TEST Failed Status, please check the job."
-			sh 'exit 1'
+			sh 'sh exit 1'
 			}
 		}		
 	   )
