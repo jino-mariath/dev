@@ -11,12 +11,16 @@ node ('master') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
 	   
-		def filename = "/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh"
-		def file = new File(filename)
-		file.newWriter().withWriter { w ->
-		w << mockRequest.requestContent
-		}
-		w.close()
+		String content = 'Some text'
+		def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
+		myFile.write(content)
+
+		//def filename = "/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh"
+		//def file = new File(filename)
+		//file.newWriter().withWriter { w ->
+		//w << mockRequest.requestContent
+		//}
+		//w.close()
 
 	   
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
