@@ -10,6 +10,15 @@ node ('master') {
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
+	   
+		def filename = "/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh"
+		def file = new File(filename)
+		file.newWriter().withWriter { w ->
+		w << mockRequest.requestContent
+		}
+		w.close()
+
+	   
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
@@ -46,12 +55,6 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
-
-		new File(baseDir,'haiku.txt').withWriter('utf-8') { writer ->
-		    writer.writeLine 'Into the ancient pond'
-		    writer.writeLine 'A frog jumps'
-		    writer.writeLine 'Water’s sound!'
-		}
 
 		//File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
 		//file.write "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'"
