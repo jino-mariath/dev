@@ -13,7 +13,7 @@ node ('master') {
                         println ("PAS_SONAR_TEST Failed Status, please check the job.")
                         build.doStop();
                         }
-           ECHO 'STOPPING;....'
+           echo 'STOPPING;....'
 	   build.doStop();
 	   build 'PAS_DEV'
 	}
