@@ -46,9 +46,13 @@ node ('master') {
 
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
-		File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
-		file.write "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'"
-		println file.text
+		new File(baseDir,'data.bin').withOutputStream { stream ->
+   		do something ...
+		}
+
+		//File file = new File("/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh")
+		//file.write "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'"
+		//println file.text
 
 		//echo "ssh WebTeam@lxpc1040 '/home/WebTeam/deployment/test.sh'" > /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh
 		//sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
