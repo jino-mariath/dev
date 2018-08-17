@@ -70,7 +70,7 @@ node ('master') {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
 	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
 		println SonarBuildStatus
-                if(SonarBuildStatus != "SUCCESS") {
+                if(SonarBuildStatus == "SUCCESS") {
 			println ("PAS_SONAR_TEST Failed Status, please check the job.")
 			build.doStop();
 			}
