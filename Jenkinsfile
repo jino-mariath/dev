@@ -13,7 +13,7 @@ node ('master') {
               System.exit(1);
            }
 
-	   build 'PAS_DEV'
+	   //build 'PAS_DEV'
 	}
 	
 	stage ('P@S Packaging') {
