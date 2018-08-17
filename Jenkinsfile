@@ -13,7 +13,7 @@ node ('master') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
 
-	   def item = Jenkins.instance.getItem("PAS_DE")
+	   def item = Jenkins.instance.getItem("/approot/jenkins/jobs/PAS_DEV")
 	   def  f=item.getLastFailedBuild()
 	   println f.getTime()
 
