@@ -8,7 +8,7 @@ node ('master') {
            echo 'Dev Build - 1. Git Pull'
 	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
 	   def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
-	   if(!SonarBuildStatus.equals("SUCCESS") { // <--
+	   if(!SonarBuildStatus.equals("FAILED") { // <--
               System.out.println("Sorry, incorrect input.");
               System.exit(1);
            }
