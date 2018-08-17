@@ -6,8 +6,8 @@ node ('master') {
     try {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
+	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
 	   build 'PAS_DEV'
-	    echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/default/lastBuild/console'
 	}
 	
 	stage ('P@S Packaging') {
@@ -15,6 +15,7 @@ node ('master') {
 	   echo 'Building package - Combining and Compressing P@S code ....'
 
 	   def item = Jenkins.instance.getItemByFullName("/approot/jenkins/jobs/PAS_DEV")
+	   println item.getTime()
 	   //def  f=item.getLastFailedBuild()
 	   def  ff=item.getLastSuccessfulBuild()
 	   println ff.getTime()
