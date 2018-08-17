@@ -7,11 +7,6 @@ node ('master') {
         stage ('Dev Build') {
            echo 'Dev Build - 1. Git Pull'
 	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
-	   def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
-	   if(SonarBuildStatus != "FAILED") { // <--
-              println("Sorry, incorrect input.");
-           }
-
 	   build 'PAS_DEV'
 	}
 	
@@ -75,8 +70,8 @@ node ('master') {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
 	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
 		println SonarBuildStatus
-                if(SonarBuildStatus!=SUCCESS) {
-			echo 'PAS_SONAR_TEST Failes Status, please check the job.'
+                if(SonarBuildStatusi != "SUCCESS") {
+			println ("PAS_SONAR_TEST Failed Status, please check the job."
 			sh 'exit 1'
 			}
 		}		
