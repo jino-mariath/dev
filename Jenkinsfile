@@ -48,7 +48,7 @@ node ('master') {
 	   parallel ('PAS_Dev_Language': {
 		echo 'Executing DEV site language code.'
 
-		String content = 'ssh WebTeam@lxpc1040 "/home/WebTeam/deployment/test.sh"'
+		String content = 'ssh WebTeam@lxpc1040 "/home/WebTeam/deployment/pas_dev_language.sh"'
                 def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
                 myFile.write(content)
 
