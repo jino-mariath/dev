@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+import hudson.FilePath
 
 node ('master') {
     try {
