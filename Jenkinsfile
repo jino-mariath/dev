@@ -13,13 +13,6 @@ node ('master') {
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
-
-	   def item = Jenkins.instance.getItemByFullName("/approot/jenkins/jobs/PAS_DEV")
-	   //def  f=item.getLastFailedBuild()
-	   def  ff=item.getLastSuccessfulBuild()
-	   println ff.getTime()
-
-
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
