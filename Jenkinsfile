@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 import hudson.FilePath
+import jenkins.model.Jenkins
 
 node ('master') {
     try {
@@ -11,6 +12,12 @@ node ('master') {
 	stage ('P@S Packaging') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
+
+	   def item = Jenkins.instance.getItem("PAS_DE")
+	   def  f=item.getLastFailedBuild()
+	   println f.getTime()
+
+
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
 	}
@@ -61,7 +68,11 @@ node ('master') {
 			Pa11y_Test: {
 		echo 'Executing ADA Test - PA11Y script'
 		build 'PAS_TEST_PA11Y'
-		}
+		},
+
+			Sonar_Build_Status: {
+		echo 'Checking Sonar Build status'
+		}		
 	   )
 	}
 	
