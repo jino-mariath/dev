@@ -13,7 +13,7 @@ node ('master') {
 	   def Sonar = "SUCCESS"
 	   println Sonar
 	   echo 'Status'
-	   println "${'SonarBuildStatus'}".equals('SUCCESS')
+	   println "${'SonarBuildStatus'}" == 'SUCCESS'
            if( SonarBuildStatus == Sonar ) {
                println ("PAS_SONAR_TEST Status: SUCCESS,...")
                } else {
