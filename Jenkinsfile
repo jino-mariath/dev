@@ -16,7 +16,7 @@ node ('master') {
 //               build.doStop();
 //               //currentBuild.result = 'FAILURE'
 //               }
-//	}
+	}
 	
 
     } catch(error) {
