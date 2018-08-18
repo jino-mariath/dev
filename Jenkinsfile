@@ -10,7 +10,7 @@ node ('master') {
 	   def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
            println SonarBuildStatus
 	   echo 'Sonar status Define variable'
-	   def Sonar
+//	   def Sonar
 	   Sonar = "SUCCESS"
 	   println Sonar
 	   echo 'Status'
