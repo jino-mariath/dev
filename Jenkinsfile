@@ -14,13 +14,13 @@ node ('master') {
 	   Sonar = "SUCCESS"
 	   println Sonar
 	   echo 'Status'
-//           if(SonarBuildStatus != SUCCESS) {
-//               println ("PAS_SONAR_TEST Status: SUCCESS,...")
-//               } else {
-//               println ("PAS_SONAR_TEST Failed Status, please check the job.")
-//               build.doStop();
-//               //currentBuild.result = 'FAILURE'
-//               }
+           if(SonarBuildStatus != Sonar) {
+               println ("PAS_SONAR_TEST Status: SUCCESS,...")
+               } else {
+               println ("PAS_SONAR_TEST Failed Status, please check the job.")
+               build.doStop();
+               //currentBuild.result = 'FAILURE'
+               }
 	}
 	
 
