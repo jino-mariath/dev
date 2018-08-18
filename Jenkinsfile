@@ -11,7 +11,7 @@ node ('master') {
            println SonarBuildStatus
 	   echo 'Sonar status Define variable'
 	   def Sonar
-	   Sonar = SUCCESS
+	   Sonar = "SUCCESS"
 	   println Sonar
 	   echo 'Status'
 //           if(SonarBuildStatus != SUCCESS) {
