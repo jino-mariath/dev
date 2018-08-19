@@ -8,7 +8,8 @@ stage ('BEHAT site Deployment') {
 	   parallel ('PAS_Behat': {
 		echo 'Initaing Behat sites code deployment.'
 		//build 'PAS_Behat_Site-Deployment
-		lock('PAS_STAGE_Deploy'){
+		//lock('PAS_STAGE_Deploy'){
+		Jenkins.instance.getItem("PAS_STAGE_Deploy").disable()
 	 	   echo "locked build- PAS_STAGE_Deploy" 
 		}
 		},
