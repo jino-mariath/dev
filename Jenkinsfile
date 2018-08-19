@@ -28,7 +28,7 @@ stage ('BEHAT site Deployment') {
 		echo 'Executing PAS_Behat_db '
 		sh '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_Site-Deployment'
 		sh '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_BEHAT'
-		build PAS_Behat_db'
+		build 'PAS_Behat_db'
               },
 	   )
 	}
