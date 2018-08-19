@@ -11,7 +11,6 @@ stage ('BEHAT site Deployment') {
 		//lock('PAS_STAGE_Deploy'){
 		Jenkins.instance.getItem("PAS_STAGE_Deploy").disable()
 	 	   echo "locked build- PAS_STAGE_Deploy" 
-		}
 		},
 		 
 			PAS_TEST_Deploy: {
