@@ -18,8 +18,8 @@ stage ('BEHAT site Deployment') {
 			PAS_BEHAT: {
 		echo 'Executing Behat'
 		sleep 5
-		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_Site-Deployment'
-		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_db'
+		sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_Site-Deployment'
+		sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_db'
 		build 'PAS_BEHAT'
 
               },
@@ -27,8 +27,8 @@ stage ('BEHAT site Deployment') {
 			PAS_Behat_db: {
 		echo 'Executing PAS_Behat_db '
 		sleep 5
-		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_Site-Deployment'
-		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_BEHAT'
+		sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_Site-Deployment'
+		sh 'sh /approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_BEHAT'
 		build 'PAS_Behat_db'
               },
 	   )
