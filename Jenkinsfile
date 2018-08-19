@@ -23,15 +23,13 @@ node ('master') {
 
 		job('PA11y_Test') {
 		   echo 'Executing ADA Test - PA11Y script'
+		   build 'PAS_TEST_PA11Y
                    blockOn(['PAS_Dev_Language', 'Sonar_Build_Status']) {
                       blockLevel('GLOBAL')
                       scanQueueFor('ALL')
                    }    
-                }
+                },
         
-		build 'PAS_TEST_PA11Y'
-		},
-
 			Sonar_Build_Status: {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
 	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
