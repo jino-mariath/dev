@@ -23,7 +23,7 @@ node ('master') {
 
 		job('PA11y_Test') {
 		   echo 'Executing ADA Test - PA11Y script'
-		   build 'PAS_TEST_PA11Y
+		   //build 'PAS_TEST_PA11Y
                    blockOn(['PAS_Dev_Language', 'Sonar_Build_Status']) {
                       blockLevel('GLOBAL')
                       scanQueueFor('ALL')
