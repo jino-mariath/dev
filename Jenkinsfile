@@ -2,12 +2,30 @@
 import hudson.FilePath
 import jenkins.model.Jenkins
 
-job('PA11y_Test') {
-   echo 'Executing ADA Test - PA11Y script'
-   //build 'PAS_TEST_PA11Y
-   blockOn(['PAS_Dev_Language', 'Sonar_Build_Status']) {
-       blockLevel('GLOBAL')
-       scanQueueFor('ALL')
-    }    
-}
-        
+stage ('BEHAT site Deployment') {
+	   echo 'Executing Behat and Test & Stage site deployment in parallel. '
+	 
+	   parallel ('PAS_Behat': {
+		echo 'Initaing Behat sites code deployment.'
+		build 'PAS_Behat_Site-Deployment'
+		lock('PAS_STAGE_Deploy'){
+	 	   echo "locked build- PAS_STAGE_Deploy" 
+		}
+		},
+		 
+			PAS_TEST_Deploy: {
+		echo 'Copying P@S package to Test Site'
+		echo 'Copying Deployment files...'
+		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
+		//sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		echo 'P@S code deployed to Test site Successfully...'
+              },
+
+			PAS_STAGE_Deploy: {
+		echo 'Copying P@S package to Stage Site'
+		echo 'Copying Deployment files...'
+		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
+		//sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		echo 'P@S code deployed to Stage site Successfully...'
+              },
+	   )
