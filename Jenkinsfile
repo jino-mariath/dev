@@ -11,7 +11,7 @@ stage ('BEHAT site Deployment') {
 		echo 'Behat jobs is not in execution / completed.'
 		sh '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_Behat_db'
  		echo 'Behat sites db refresh jobs is not in execution / completed.'
-		buil 'PAS_Behat_Site-Deployment'
+		build 'PAS_Behat_Site-Deployment'
 	 	echo 'Behat site deployment completed. ' 
 		},
 		 
