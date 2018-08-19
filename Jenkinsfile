@@ -4,48 +4,6 @@ import jenkins.model.Jenkins
 
 node ('master') {
     try {
-        stage ('Dev Build') {
-           echo 'Dev Build - 1. Git Pull'
-	   echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_DEV/lastBuild/console'
-	   def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
-	   build 'PAS_DEV'
-	}
-	
-	stage ('P@S Packaging') {
-	   echo 'Initiating build script.'
-	   echo 'Building package - Combining and Compressing P@S code ....'
-	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
- 	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
-	}
-	
-        stage ('Artifactory') {
-           echo 'Copying P@S package to Artifactory'
-
- 	   parallel ('PAS_Artifactory': {
-		sh '/approot/JenkinsFile-Project/build/pas-artifactory.sh'
-		},
-	
-			PAS_Dev_deploy: {
-              echo 'Copying P@S package to Dev Site'
-              echo 'Copying Deployment files...'
-              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-              //sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
-              echo 'P@S code deployed to Dev site Successfully...'
-              },
-
-                	Sonar_Test: {
-              echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
-              build(job: 'PAS_SONAR_TEST', wait:false)
-              }
-           )
-        }
-	
-	stage ('DEV SmokeTest') {
-	   echo 'Cheking DEV site status after deployment. '
-	   sh 'sh /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/shell_scripts/bin/pax_intranet_smoke_test.sh https://devprincessatsea.cruises.princess.com/'
-	   sleep(10) //Sleep 10 Sec
-	}
-
 	stage ('Test Gate') {
 	   echo 'Initating P@S Test and P@S Stage site code deployment..'
 
@@ -63,8 +21,14 @@ node ('master') {
 		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
 		},
 
-			Pa11y_Test: {
-		echo 'Executing ADA Test - PA11Y script'
+		job('PA11y_Test') {
+		   echo 'Executing ADA Test - PA11Y script'
+                   blockOn(['PAS_Dev_Language', 'Sonar_Build_Status']) {
+                      blockLevel('GLOBAL')
+                      scanQueueFor('ALL')
+                   }    
+                }
+        
 		build 'PAS_TEST_PA11Y'
 		},
 
