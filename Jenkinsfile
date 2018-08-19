@@ -7,7 +7,7 @@ stage ('BEHAT site Deployment') {
 	 
 	   parallel ('PAS_Behat': {
 		echo 'Initaing Behat sites code deployment.'
-		build 'PAS_Behat_Site-Deployment'
+		//build 'PAS_Behat_Site-Deployment
 		lock('PAS_STAGE_Deploy'){
 	 	   echo "locked build- PAS_STAGE_Deploy" 
 		}
@@ -16,7 +16,7 @@ stage ('BEHAT site Deployment') {
 			PAS_TEST_Deploy: {
 		echo 'Copying P@S package to Test Site'
 		echo 'Copying Deployment files...'
-		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
+		//sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
 		//sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Test site Successfully...'
               },
@@ -24,7 +24,7 @@ stage ('BEHAT site Deployment') {
 			PAS_STAGE_Deploy: {
 		echo 'Copying P@S package to Stage Site'
 		echo 'Copying Deployment files...'
-		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
+		//sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
 		//sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully...'
               },
