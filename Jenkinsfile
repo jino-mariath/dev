@@ -29,3 +29,4 @@ stage ('BEHAT site Deployment') {
 		echo 'P@S code deployed to Stage site Successfully...'
               },
 	   )
+	}
