@@ -28,7 +28,7 @@ node ('master') {
               echo 'Copying P@S package to Dev Site'
               echo 'Copying Deployment files...'
               sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-              //sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+              sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
               },
 
@@ -85,8 +85,8 @@ node ('master') {
 	stage ('BEHAT site Deployment') {
 	   echo 'Executing Behat and Test & Stage site deployment in parallel. '
 	 
-	   parallel ('PAS_Behat': {
-		echo 'Initaing Behat sites code deployment.'
+	   parallel ('PAS_Behat_Site-Deployment': {
+		echo 'Promote latest P@S version to Behat sites .'
 		build 'PAS_Behat_Site-Deployment'
 		},
 		 
@@ -94,7 +94,7 @@ node ('master') {
 		echo 'Copying P@S package to Test Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
-		//sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Test site Successfully...'
               },
 
@@ -102,7 +102,7 @@ node ('master') {
 		echo 'Copying P@S package to Stage Site'
 		echo 'Copying Deployment files...'
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
-		//sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully...'
               },
 	   )
@@ -118,13 +118,18 @@ node ('master') {
 	   echo 'Test Site deployment and Iniating Behat job Execution'
 
 	   parallel ('Behat_Execution': {
-		echo 'Starting Behat ...'
-		build 'PAS_BEHAT'
+		echo 'Starting Behat Execution for OCEAN Theme ...'
+		build 'PAS_BEHAT-OCEAN'
+		},
+
+			PAS_BEHAT-PAX_V2: {
+		echo 'Starting Behat Execution for PAX-V2 Theme ...'
+		build 'PAS_BEHAT-PAX_V2'
 		},
 
 			PAS_Test_Ship_Deploy: {
 		echo 'Executing Test Ship site deployment'
-		build 'PAS_TEST_SHIP'
+		//build 'PAS_TEST_SHIP'
 		},
 
 			PAS_Behat_db: {
