@@ -104,7 +104,7 @@ node ('master') {
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
 		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully...'
-              },
+              }
 	   )
 	}
 
