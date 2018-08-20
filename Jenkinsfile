@@ -133,7 +133,10 @@ node ('master') {
 		}
 	   )
 	}
-
+	
+	stage ('ProductionReleaseCheckPoint') {
+	   echo 'We are good to Promote P@S code to Shoreside Production site .. => Princess@Sea Version : '
+	}
 
     } catch(error) {
         throw error
