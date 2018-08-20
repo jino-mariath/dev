@@ -117,15 +117,15 @@ node ('master') {
 	stage ('Behat and Test site Execution') {
 	   echo 'Test Site deployment and Iniating Behat job Execution'
 
-	   parallel ('Behat_Execution': {
+	   parallel ('Behat_Execution_Ocean': {
 		echo 'Starting Behat Execution for OCEAN Theme ...'
 		build 'PAS_BEHAT-OCEAN'
 		},
 
-		//	PAS_BEHAT-PAX_V2: {
-		//echo 'Starting Behat Execution for PAX-V2 Theme ...'
-		//build 'PAS_BEHAT-PAX_V2'
-		//},
+			Behat_Execution_Pax_V2: {
+		echo 'Starting Behat Execution for PAX-V2 Theme ...'
+		build 'PAS_BEHAT-PAX_V2'
+		},
 
 			PAS_Test_Ship_Deploy: {
 		echo 'Executing Test Ship site deployment'
