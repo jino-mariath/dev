@@ -55,7 +55,7 @@ node ('master') {
                 def myFile = new File('/approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh')
                 myFile.write(content)
 		
-		sh 'rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
+		sh 'rsync -avz /approot/JenkinsFile-Project/deployment/pas_dev_language.sh WebTeam@lxpc1040:deployment/'
 		sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
 		build(job: 'PAS_Build_Script', wait:false)
 		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
