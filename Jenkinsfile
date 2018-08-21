@@ -30,15 +30,15 @@ node ('master') {
 			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
               echo 'Copying Deployment files...'
-              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
-              sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
+              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/pas.version .; rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/drush_modules_manager .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
+              sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
 	      sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
               },
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... princessatsea-PAS_VERSION, More details => http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
-	      sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/pas.version /approot/jenkins/jobs/PAS_SONAR_TEST/'
+	      sh 'rsync -avz /approot/JenkinsFile-Project/deployment/pas.version /approot/jenkins/jobs/PAS_SONAR_TEST/'
 	      String sonar_version = new File('/approot/jenkins/jobs/PAS_SONAR_TEST/pas.version').text
               String version = 'Iniating Static code analysis for P@S Version : ' + sonar_version
               echo version
@@ -113,7 +113,7 @@ node ('master') {
                 String version = 'Deploying P@S code to Test P@S Site - PAS Version : ' + pas_test_version
                 echo version
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh pas_deployment.sh &"'
 		echo 'P@S code deployed to Test site Successfully... with PAS version : ' + pas_test_version
               },
 
@@ -123,7 +123,7 @@ node ('master') {
                 String version = 'Deploying P@S code to Stage P@S Site - PAS Version : ' + pas_stage_version
                 echo version
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
-		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
+		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh pas_deployment.sh &"'
 		echo 'P@S code deployed to Stage site Successfully... with PAS version : ' + pas_stage_version
               }
 	   )
