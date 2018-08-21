@@ -33,6 +33,7 @@ node ('master') {
               sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/var.properties .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
               sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
+	      sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
               },
 
                 	Sonar_Test: {
@@ -65,7 +66,6 @@ node ('master') {
 		sh 'rsync -avz /approot/JenkinsFile-Project/deployment/pas_dev_language.sh WebTeam@lxpc1040:deployment/'
 		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
 		build(job: 'PAS_Build_Script', wait:false)
-		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
 		},
 
 			Pa11y_Test: {
@@ -80,7 +80,7 @@ node ('master') {
 			Sonar_Build_Status: {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
 		sleep(10) //Sleep 10 Sec
-	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
+	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/scripts/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
 		println SonarBuildStatus
                 if(SonarBuildStatus.trim() == "SUCCESS") {
 			println ("PAS_SONAR_TEST Status: SUCCESS,...")
@@ -89,7 +89,8 @@ node ('master') {
 			build.doStop();
 			//currentBuild.result = 'FAILURE'
 			}
-		}		
+		sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
+		}
 	   )
 	}
 	
@@ -103,6 +104,7 @@ node ('master') {
                 echo version
 		echo 'Promote latest P@S version to Behat sites. For Console log => http://lxpc1283.cruises.princess.com:8080/job/PAS_Behat_Site-Deployment/lastBuild/console'
 		build 'PAS_Behat_Site-Deployment'
+		sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
 		},
 		 
 			PAS_TEST_Deploy: {
@@ -139,6 +141,7 @@ node ('master') {
 	   parallel ('Behat_Execution_Ocean': {
 		echo 'Starting Behat Execution for OCEAN Theme ...'
 		build 'PAS_BEHAT-OCEAN'
+		sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
 		},
 
 			Behat_Execution_Pax_V2: {
@@ -164,10 +167,11 @@ node ('master') {
 	}
 	
 	stage ('ProductionReleaseCheckPoint') {
-	   sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_SHIP/pas.version /approot/jenkins/jobs/PAS_SHORE_PRO/'
-                String shore_version = new File('/approot/jenkins/jobs/PAS_SHORE_PRO/pas.version').text
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_SHIP/pas.version /approot/jenkins/jobs/PAS_SHORE_PRO/'
+		String shore_version = new File('/approot/jenkins/jobs/PAS_SHORE_PRO/pas.version').text
                 String version = 'We are ready to Promote P@S code to Shoreside Production site with PAS Version : ' + shore_version
                 echo version
+		sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
 	}
 
     } catch(error) {
