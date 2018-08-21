@@ -64,7 +64,7 @@ node ('master') {
                 myFile.write(content)
 		
 		sh 'rsync -avz /approot/JenkinsFile-Project/deployment/pas_dev_language.sh WebTeam@lxpc1040:deployment/'
-		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
+		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/lastBuild/console'
 		build(job: 'PAS_Build_Script', wait:false)
 		},
 
@@ -130,7 +130,7 @@ node ('master') {
 	}
 
 	stage ('Behat Smoke Test') {
-	   echo 'Checking behat site status'
+	   echo 'Checking behat site status..  For more details => http://lxpc1283.cruises.princess.com:8080/job/PAS_SMOKE_TEST_behat/lastBuild/console'
 	   build 'PAS_SMOKE_TEST_behat'
 	}
 
