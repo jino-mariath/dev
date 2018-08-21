@@ -33,7 +33,7 @@ node ('master') {
               },
 
                 	Sonar_Test: {
-              echo 'Executing Sonar Test - Static Code Analyzer... primcessatsea-PAS_VERSION'
+              echo 'Executing Sonar Test - Static Code Analyzer... princessatsea-PAS_VERSION, More details => http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
               build(job: 'PAS_SONAR_TEST', wait:false)
               }
            )
@@ -56,14 +56,13 @@ node ('master') {
                 myFile.write(content)
 		
 		sh 'rsync -avz /approot/JenkinsFile-Project/deployment/pas_dev_language.sh WebTeam@lxpc1040:deployment/'
-		sh 'chmod 755 /approot/jenkins/jobs/PAS_Build_Script/workspace/dev_language.sh'
+		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
 		build(job: 'PAS_Build_Script', wait:false)
 		//sh 'sh /approot/JenkinsFile-Project/deployment/pas_jenkins_build_scrips.sh dev_language.sh'
-		echo 'For more details for this job please navigate to --> http://lxpc1283.cruises.princess.com:8080/job/PAS_Build_Script/default/lastBuild/console'
 		},
 
 			Pa11y_Test: {
-		echo 'Executing ADA Test - PA11Y script'
+		echo 'Executing ADA Test - PA11Y script, for more details => http://lxpc1283.cruises.princess.com:8080/job/PAS_TEST_PA11Y/lastBuild/console'
 		build 'PAS_TEST_PA11Y'
 		},
 
@@ -87,7 +86,7 @@ node ('master') {
 	   echo 'Executing Behat and Test & Stage site deployment in parallel. '
 	 
 	   parallel ('PAS_Behat_Site-Deployment': {
-		echo 'Promote latest P@S version to Behat sites .'
+		echo 'Promote latest P@S version to Behat sites. For Console log => http://lxpc1283.cruises.princess.com:8080/job/PAS_Behat_Site-Deployment/lastBuild/console'
 		build 'PAS_Behat_Site-Deployment'
 		},
 		 
