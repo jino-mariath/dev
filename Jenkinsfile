@@ -15,6 +15,8 @@ node ('master') {
 	   echo 'Building package - Combining and Compressing P@S code ....'
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
+	   sh 'PAS_VERSION=`cat /approot/jenkins/jobs/PAS_DEV/var.properties | grep PAS_VERSION | cut -d '=' -f2`; BUILD_NUMBER=`cat /approot/jenkins/jobs/PAS_DEV/var.properties | grep VERSION_BUILD_NUMBER | cut -d '=' -f2`'
+	   echo 'P@S package version - $PAS_VERSION-@BUILD_NUMBER has been created successfully..'
 	}
 	
         stage ('Artifactory') {
@@ -134,6 +136,7 @@ node ('master') {
 
 			PAS_Behat_db: {
 		echo 'Initiating Behat Database refresh job once Beaht deployment and Behat execution completes.'
+		sleep 10
 		build(job: 'PAS_Behat_db', wait:false)
 		}
 	   )
