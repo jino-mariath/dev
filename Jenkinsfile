@@ -15,6 +15,9 @@ node ('master') {
 	   echo 'Building package - Combining and Compressing P@S code ....'
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
  	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
+	   String pas_version = new File('/approot/jenkins/jobs/PAS_DEV/workspace/pas.version').text
+	   String version = 'P@S package has been created with Version : ' + pas_version
+	   echo version
 	}
 	
         stage ('Artifactory') {
@@ -34,6 +37,10 @@ node ('master') {
 
                 	Sonar_Test: {
               echo 'Executing Sonar Test - Static Code Analyzer... princessatsea-PAS_VERSION, More details => http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
+	      sh 'rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/pas.version /approot/jenkins/jobs/PAS_SONAR_TEST/'
+	      String sonar_version = new File('/approot/jenkins/jobs/PAS_SONAR_TEST/pas.version').text
+              String version = 'Iniating Static code analysis for P@S Version : ' + sonar_version
+              echo version
               build(job: 'PAS_SONAR_TEST', wait:false)
               }
            )
@@ -62,6 +69,10 @@ node ('master') {
 		},
 
 			Pa11y_Test: {
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_SONAR_TEST/pas.version /approot/jenkins/jobs/PAS_TEST_PA11Y/'
+              	String pa11y_version = new File('/approot/jenkins/jobs/PAS_TEST_PA11Y/pas.version').text
+              	String version = 'Iniating ADA Compliance code analysis for P@S Version : ' + pa11y_version
+              	echo version
 		echo 'Executing ADA Test - PA11Y script, for more details => http://lxpc1283.cruises.princess.com:8080/job/PAS_TEST_PA11Y/lastBuild/console'
 		build 'PAS_TEST_PA11Y'
 		},
@@ -86,24 +97,32 @@ node ('master') {
 	   echo 'Executing Behat and Test & Stage site deployment in parallel. '
 	 
 	   parallel ('PAS_Behat_Site-Deployment': {
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_PA11Y/pas.version /approot/jenkins/jobs/PAS_Behat_Site-Deployment/'
+                String pas_behat_version = new File('/approot/jenkins/jobs/PAS_Behat_Site-Deployment/pas.version').text
+                String version = 'Iniating Behat Sites deployment P@S Version : ' + pas_behat_version
+                echo version
 		echo 'Promote latest P@S version to Behat sites. For Console log => http://lxpc1283.cruises.princess.com:8080/job/PAS_Behat_Site-Deployment/lastBuild/console'
 		build 'PAS_Behat_Site-Deployment'
 		},
 		 
 			PAS_TEST_Deploy: {
-		echo 'Copying P@S package to Test Site'
-		echo 'Copying Deployment files...'
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_PA11Y/pas.version /approot/jenkins/jobs/PAS_TEST_Deploy/'
+                String pas_test_version = new File('/approot/jenkins/jobs/PAS_TEST_Deploy/pas.version').text
+                String version = 'Deploying P@S code to Test P@S Site - PAS Version : ' + pas_test_version
+                echo version
 		sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz ../deployment WebTeam@lxpc1041:/home/WebTeam/'
 		sh 'ssh WebTeam@lxpc1041 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
-		echo 'P@S code deployed to Test site Successfully...'
+		echo 'P@S code deployed to Test site Successfully... with PAS version : ' + pas_test_version
               },
 
 			PAS_STAGE_Deploy: {
-		echo 'Copying P@S package to Stage Site'
-		echo 'Copying Deployment files...'
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_PA11Y/pas.version /approot/jenkins/jobs/PAS_STAGE_Deploy/'
+                String pas_stage_version = new File('/approot/jenkins/jobs/PAS_STAGE_Deploy/pas.version').text
+                String version = 'Deploying P@S code to Stage P@S Site - PAS Version : ' + pas_stage_version
+                echo version
 		sh 'cd /approot/JenkinsFile-Project/deployment;rsync -avz ../deployment WebTeam@lxpc1042:/home/WebTeam/'
 		sh 'ssh WebTeam@lxpc1042 "cd /home/WebTeam/deployment/; sh deployment.sh &"'
-		echo 'P@S code deployed to Stage site Successfully...'
+		echo 'P@S code deployed to Stage site Successfully... with PAS version : ' + pas_stage_version
               }
 	   )
 	}
@@ -114,7 +133,7 @@ node ('master') {
 	}
 
 
-	stage ('Behat and Test site Execution') {
+	stage ('Behat and Test Ship sites Execution') {
 	   echo 'Test Site deployment and Iniating Behat job Execution'
 
 	   parallel ('Behat_Execution_Ocean': {
@@ -129,6 +148,10 @@ node ('master') {
 
 			PAS_Test_Ship_Deploy: {
 		echo 'Executing Test Ship site deployment'
+		sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_Deploy/pas.version /approot/jenkins/jobs/PAS_TEST_SHIP/'
+                String pas_testShip_version = new File('/approot/jenkins/jobs/PAS_TEST_SHIP/pas.version').text
+                String version = 'Deploying P@S code to Test P@S Site - PAS Version : ' + pas_testShip_version
+                echo version
 		//build 'PAS_TEST_SHIP'
 		},
 
@@ -141,7 +164,10 @@ node ('master') {
 	}
 	
 	stage ('ProductionReleaseCheckPoint') {
-	   echo 'We are good to Promote P@S code to Shoreside Production site .. => Princess@Sea Version : '
+	   sh 'rsync -avz /approot/jenkins/jobs/PAS_TEST_SHIP/pas.version /approot/jenkins/jobs/PAS_SHORE_PRO/'
+                String shore_version = new File('/approot/jenkins/jobs/PAS_SHORE_PRO/pas.version').text
+                String version = 'We are ready to Promote P@S code to Shoreside Production site with PAS Version : ' + shore_version
+                echo version
 	}
 
     } catch(error) {
