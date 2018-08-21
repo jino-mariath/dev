@@ -14,8 +14,8 @@ node ('master') {
 	   echo 'Initiating build script.'
 	   echo 'Building package - Combining and Compressing P@S code ....'
 	   sh '/approot/JenkinsFile-Project/build/pas_build.sh'
- 	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/workspace/'
-	   String pas_version = new File('/approot/jenkins/jobs/PAS_DEV/workspace/pas.version').text
+ 	   sh 'ls -lah /approot/jenkins/jobs/PAS_DEV/'
+	   String pas_version = new File('/approot/jenkins/jobs/PAS_DEV/pas_version').text
 	   String version = 'P@S package has been created with Version : ' + pas_version
 	   echo version
 	}
@@ -30,7 +30,7 @@ node ('master') {
 			PAS_Dev_deploy: {
               echo 'Copying P@S package to Dev Site'
               echo 'Copying Deployment files...'
-              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/pas.version .; rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/drush_modules_manager .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
+              sh 'cd /approot/JenkinsFile-Project/deployment; rsync -avz /approot/jenkins/jobs/PAS_DEV/pas_version ./pas.version; rsync -avz /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/drush_modules_manager .; rsync -avz ../deployment WebTeam@lxpc1040:/home/WebTeam/'
               sh 'ssh WebTeam@lxpc1040 "cd /home/WebTeam/deployment/; sh pas_deployment.sh"'
               echo 'P@S code deployed to Dev site Successfully...'
 	      sh '/approot/JenkinsFile-Project/scripts/Jenkins-DEV_Flag-Notification.sh'
