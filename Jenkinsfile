@@ -42,7 +42,6 @@ node ('master') {
 	stage ('DEV SmokeTest') {
 	   echo 'Cheking DEV site status after deployment. '
 	   sh 'sh /approot/jenkins/jobs/PAS_DEV/workspace/PAS/ci/shell_scripts/bin/pax_intranet_smoke_test.sh https://devprincessatsea.cruises.princess.com/'
-	   sleep(10) //Sleep 10 Sec
 	}
 
 	stage ('Test Gate') {
@@ -69,6 +68,7 @@ node ('master') {
 
 			Sonar_Build_Status: {
 		echo 'Checking Sonar Build status.... and Waiting for job to complete. --> http://lxpc1283.cruises.princess.com:8080/job/PAS_SONAR_TEST/lastBuild/console'
+		sleep(10) //Sleep 10 Sec
 	        def SonarBuildStatus = sh(script: '/approot/JenkinsFile-Project/deployment/pas_build_status.sh PAS_SONAR_TEST', returnStdout: true)
 		println SonarBuildStatus
                 if(SonarBuildStatus.trim() == "SUCCESS") {
